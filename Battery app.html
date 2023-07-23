@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Labtop Battery Testing  ">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="author" content="Ahmed Saif">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+	
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Custom css -->
+<style>
+    body{
+      margin-top: 20px;
+    }
+    .red{
+      color: red;
+      margin-bottom: 0rem;
+    }
+          html {
+      scroll-behavior: smooth;
+    }
+    
+    a {
+      text-decoration: none;
+      color: rgb(255, 255, 255);
+    } 
+
+          #demo3{
+      color: #42a3b9;
+        text-align: -webkit-center;
+          }
+          #demo3 > p {
+            margin-top: 3px;
+        margin-bottom: 0rem;
+    }
+    .otest{
+      text-align: center;
+    }
+
+    #timerRs{
+      text-align: center;
+        color: forestgreen;
+    }
+    .table{
+      margin-top: 0px;
+    }
+
+    .textarea{
+      position: relative;
+        left: -2px;
+    }
+    .textareabtn {
+      position: absolute;
+        height: 57px;
+    }
+    #timestart1{
+      width: 120px;
+    }
+
+    .maindiv{
+      padding: 7px;
+      border: 1px solid #d9d9d9;
+      max-width: 875px;
+    }
+
+    #div1 {
+      font-size:32px;
+    }
+
+    .green{
+      color: green
+    }
+
+
+
+    /* Default styles for all screen sizes */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* Styles for small screens (up to 600px) */
+@media screen and (max-width: 600px) {
+  .table {
+    display: block;
+  }
+
+  .table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .table th,
+  .table td {
+    display: block;
+    text-align: left;
+  }
+}
+
+/* Styles for medium and larger screens (above 600px) */
+@media screen and (min-width: 600px) {
+  .table {
+    display: table;
+  }
+
+  .table th,
+  .table td {
+    display: table-cell;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+  
+</style>
+
+    <title>BATTERY TEST TRACKER </title>
+</head>
+
+
+<body class="container " style="max-width: 850px">
+<div class="container  maindiv">
+  <!-- navbar -->
+  <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="container">
+      <h4>BATTERY TEST TRACKER</h4> <br>
+        <button type="button" class="btn btn-success" id="start"  onclick="starTime()"> Start </button> 
+        <button type="button" class="btn btn-info" id="restor"  onclick="restored()"> <a href="#otest">Restore</a></button> 
+        <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#myModal">Clear</button>
+      </div>  
+    </nav>
+
+  <div id="data"></div>
+  <p id="timestart"></p>
+
+<!-- main table -->
+  <table class="table border" >
+    <tbody>
+      <tr>
+        <th scope="row">Test Timer </th>
+        <td id="time"></td>
+        <td id="icon"><div id="div1" class="fa"></div></td>
+      </tr>
+      <tr>
+        <th scope="row">Battery charging</th>
+        <td><p id="demo"></p></td>
+        <td><div id="demo2" > </div> </td>
+      </tr>
+      <tr>
+        <th scope="row">Start Time </th>
+        <td><p id="timestart1"></p></td>
+        <td> 
+          <p>Notes</p>
+          <textarea class="textarea" id="textarea"></textarea>
+          <button type="button" class="btn textareabtn" id="textareabtn">Save</button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Battery Level</th>
+        <td><div class="btr" id="btr" style="white-space: pre-line"></div> </td>
+        <td><div style="white-space: pre-line"> <p  id="charging"></p></div> </td>
+      </tr>
+    </tbody>
+  </table>
+
+<!--restord data will be here  -->
+  <div>
+    <h6 class="otest" id="otest">  </h6>
+    <div id="timerRs"></div>
+    <div id="demo3"></div>
+  </div>
+
+<!-- The Modal -->
+<div class="container">
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Warnning</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          This will clear old test data
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="clearData()" data-dismiss="modal">OK</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+</div>
+<!-- End of modal section-->
+
+<!-- Java Script code  -->
+<script>
+  // importing html elmements  timestart1 btr charging
+  let startButt = document.getElementById("start");
+
+// this function will display hours: minutes :ampm 
+setInterval(myTimer, 1000);
+  function myTimer(){
+    const date = new Date();
+          var hours = date.getHours();
+          var minutes = date.getMinutes();
+          var ampm = hours >= 12 ? 'PM' : 'AM';
+          hours = hours % 12;
+          hours = hours ? hours : 12; // the hour '0' should be '12'
+          minutes = minutes < 10 ? '0'+minutes : minutes;
+          stime = hours +":"+ minutes +":"+ ampm 
+           return stime
+  }
+ var myTimerex = myTimer();
+
+ // Battery info Api
+function starTime() {
+    navigator.getBattery().then(function (battery) {
+        function updateAllBatteryInfo() {
+        updateChargeInfo();
+        updateLevelInfo();
+        // updateChargingInfo();
+        // updateDischargingInfo();
+      }
+
+      //starting time TIME 
+      let timeSt = document.getElementById("timestart1").innerHTML = ` ${myTimerex}`;
+
+      // THE TIMER
+      var count = 0;
+      var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+
+function timer() {
+    count = count + 1;
+    if (count == 0) {
+        clearInterval(counter);
+        return;
+    }
+
+    var seconds = count % 60;
+    seconds = seconds < 10 ? '0'+seconds : seconds;
+    var minutes = Math.floor(count / 60);
+    var hours = Math.floor(minutes / 60);
+
+    minutes %= 60;
+    // minutes = minutes < 10 ? '0'+minutes : minutes;
+
+    hours %= 60;
+    // hours = hours < 10 ? '0'+hours : hours;
+
+
+    document.getElementById("time").innerHTML = hours + ":" + minutes + ":" + seconds + " "; // watch for spelling
+
+    let timervar =  " Timer "+ hours +" : "+ minutes 
+    localStorage.setItem('timer' , timervar)
+
+}
+
+
+      updateAllBatteryInfo();
+      battery.addEventListener("chargingchange", () => {
+        updateChargeInfo();
+      });
+
+      function updateChargeInfo() {
+        document.getElementById("demo").innerHTML = ` ${battery.charging ? " Yes" : " No" }`;
+
+   //BATTERY ANIMATION 
+
+if(battery.charging){  
+function chargebattery() {
+  var a;
+  a = document.getElementById("div1");
+  a.innerHTML = "&#xf244;";
+  setTimeout(function () {
+      a.innerHTML = "&#xf243;";
+    }, 1000);
+  setTimeout(function () {
+      a.innerHTML = "&#xf242;";
+    }, 2000);
+  setTimeout(function () {
+      a.innerHTML = "&#xf241;";
+    }, 3000);
+  setTimeout(function () {
+      a.innerHTML = "&#xf240;";
+      a.classList.add("green")
+    }, 4000);
+    a.classList.remove("green")
+}
+chargebattery();
+setInterval(chargebattery, 5000);
+} 
+  else  
+{
+  function chargebattery() {
+  var a;
+  a = document.getElementById("div1");
+  a.innerHTML = "&#xf240;";
+  setTimeout(function () {
+      a.innerHTML = "&#xf241;";
+    }, 1000);
+  setTimeout(function () {
+      a.innerHTML = "&#xf242;";
+    }, 2000);
+  setTimeout(function () {
+      a.innerHTML = "&#xf243;";
+    }, 3000);
+  setTimeout(function () {
+      a.innerHTML = "&#xf244;";
+      a.classList.add("red")
+    }, 4000);
+    a.classList.remove("red")
+}
+chargebattery();
+setInterval(chargebattery, 5000);
+}
+
+
+    }
+
+      battery.addEventListener("levelchange", () => {
+        updateLevelInfo();
+      });
+      
+
+function updateLevelInfo(time, btrchr, daterestored) {
+
+      // Set Battery level on charging 
+        let  batteryy =  Math.floor(battery.level * 100)  
+        const btrPresentage =[90,80,70,60,50,40,30,20,10,5,1]
+        const ifpresent = btrPresentage.includes(batteryy);
+        let btry = document.getElementById("btr")
+
+        if( ifpresent ){
+          const para = document.createElement("p");
+          para.classList.add("red");
+          para.innerText = "Battery level " + `${ batteryy}%` + "\n";
+          btry.prepend(para)  
+
+        }else{
+          btry.prepend("Battery level " + `${ batteryy}%` + "\n")  
+
+        }
+
+    // Set Time on charging 
+          const date = new Date();
+          var hours = date.getHours();
+          var minutes = date.getMinutes();
+          var ampm = hours >= 12 ? 'pm' : 'am';
+          hours = hours % 12;
+          hours = hours ? hours : 12; // the hour '0' should be '12'
+          minutes = minutes < 10 ? '0'+minutes : minutes;
+          var strTime = hours + ':' + minutes + '  '+ ampm +"\n";
+          let timeCharching = strTime
+          let chrdiv = document.querySelector('#charging')
+
+          if( ifpresent ){
+          const par = document.createElement("p");
+          par.classList.add("red");
+          par.innerText = timeCharching;
+          chrdiv.prepend(par)            
+          // chrdiv.prepend(timeCharching);
+
+        }else{
+          chrdiv.prepend(timeCharching);
+          }
+
+         
+
+          let dataTime = chrdiv.innerText
+
+
+//  ADD DATA TO LOCAL STORAGE
+
+function restored() {// take value or js value no the text or sho presents frm storege
+         var time = " " + timeCharching;
+          var battery = "Battery level   " + batteryy + "% = ";
+          let myInfo =  battery + time;
+
+    if(localStorage.getItem('info') == null){
+         localStorage.setItem('info', '[]');
+       } 
+
+      let dataget = JSON.parse(localStorage.getItem('info'));
+      dataget.unshift(myInfo);
+
+      localStorage.setItem('info', JSON.stringify(dataget));
+}
+
+
+restored()
+}
+
+// discharging time
+
+        battery.addEventListener("dischargingtimechange", () => {
+          updateDischargingInfo();
+        });
+
+function updateDischargingInfo() {
+          var distime =  battery.dischargingTime ;
+          var minutes = Math.floor(distime / 60);
+          var hours = Math.floor(minutes / 60);
+          minutes %= 60;
+          hours %= 60;
+    if(battery.charging ){  
+  document.getElementById("demo2").innerHTML = " Charging  " 
+      }else{
+            document.getElementById("demo2").innerHTML = " Discharging time "+ hours+" : "+ minutes +" hrs"
+      }       
+         
+
+        }
+      updateDischargingInfo();
+      
+    });
+    document.getElementById("start").disabled = 'true';
+
+  }
+
+
+  
+//   let batteryIsCharging = false;
+
+// navigator.getBattery().then((battery ) => {
+//   batteryIsCharging = battery.level;
+//   let  batteryrest = updateChargeInfo()
+//   battery.addEventListener('chargingchange', () => {
+//     batteryIsCharging = battery.charging;
+//     console.log(batteryIsCharging)
+//   });
+//   function updateChargeInfo(batteryrest){
+//     let  batteryrest =  Math.floor(battery.level * 100)
+//     return batteryrest  
+//   }
+//   updateChargeInfo();
+// });
+// console.log(batteryrest)
+
+
+      // function restor history 
+  function restored() {
+document.getElementById('otest').innerHTML = " Restored Test Data"
+    let timerRestor = localStorage.getItem('timer')
+    document.getElementById("timerRs").innerHTML = timerRestor;
+      let dataget = JSON.parse(localStorage.getItem('info'));
+
+     
+
+// MAP on dataget
+      dataget.map( (x, i) => {
+    var tag = document.createElement("p");
+    var text = document.createTextNode(x);
+   tag.appendChild(text);
+   var element = document.getElementById("demo3");
+   element.appendChild(tag);
+  let ind =+ i + 10
+if(ind % 10 == 0){
+  tag.classList.add("red");
+          // para.innerText = "Battery level " + `${ batteryy}%` + "\n";
+          // btry.prepend(para) 
+}else{
+  console.log(ind)
+
+  }
+
+      })
+
+      // Restore Notes
+      let val =  localStorage.getItem("user") ;
+      document.getElementById("textarea").value = val;
+      
+      document.getElementById("restor").disabled = 'true';
+
+    
+}
+
+
+// FUNC CLEAR AND REFRESH
+function clearData (){
+  localStorage.clear();
+  var element = document.getElementById("demo3").innerHTML = " "
+  window.location.reload();
+
+}
+    
+// TEXTAREA RESTORE
+document.getElementById("textareabtn").addEventListener("click", function ()
+    {
+        var user = document.getElementById("textarea").value ;
+        //localStorage["user"] = user ;
+        localStorage.setItem("user", user) ;
+        alert("saved") ;
+        localStorage.setItem("user", user) ;
+       
+
+        
+    } , false);
+ 
+</script>
+
+</body>
+</html>
+
+
