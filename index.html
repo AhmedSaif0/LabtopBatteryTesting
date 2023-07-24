@@ -436,26 +436,6 @@ function updateDischargingInfo() {
 
   }
 
-
-  
-//   let batteryIsCharging = false;
-
-// navigator.getBattery().then((battery ) => {
-//   batteryIsCharging = battery.level;
-//   let  batteryrest = updateChargeInfo()
-//   battery.addEventListener('chargingchange', () => {
-//     batteryIsCharging = battery.charging;
-//     console.log(batteryIsCharging)
-//   });
-//   function updateChargeInfo(batteryrest){
-//     let  batteryrest =  Math.floor(battery.level * 100)
-//     return batteryrest  
-//   }
-//   updateChargeInfo();
-// });
-// console.log(batteryrest)
-
-
       // function restor history 
   function restored() {
 document.getElementById('otest').innerHTML = " Restored Test Data"
@@ -487,9 +467,7 @@ if(ind % 10 == 0){
       // Restore Notes
       let val =  localStorage.getItem("user") ;
       document.getElementById("textarea").value = val;
-      
       document.getElementById("restor").disabled = 'true';
-
     
 }
 
@@ -510,9 +488,7 @@ document.getElementById("textareabtn").addEventListener("click", function ()
         localStorage.setItem("user", user) ;
         alert("saved") ;
         localStorage.setItem("user", user) ;
-       
-
-        
+          
     } , false);
  
 </script>
