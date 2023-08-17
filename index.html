@@ -18,6 +18,10 @@
 
 <!-- Custom css -->
 <style>
+    html {
+    scroll-behavior: smooth;
+    overflow: auto;
+    }
     body{
       margin-top: 20px;
       box-sizing: border-box;
@@ -38,9 +42,7 @@
 
     }
 
-    html {
-    scroll-behavior: smooth;
-    }
+
     
     a {
       text-decoration: none;
@@ -236,10 +238,11 @@ margin-bottom: 0rem;
       <tr>
         <th scope="row">Start Time </th>
         <td><p id="timestart1"></p></td>
+        <p>If the timer goes off before 30 minutes or the device goes to sleep, check by time and battery level it should be in around 30 minutes battery  not discharged more than 25 present from start level</p>
         <td> 
           <p>Notes</p>
-          <textarea class="textarea" id="textarea"></textarea>
-          <!-- <button type="button" class="btn textareabtn" id="textareabtn">Save</button> -->
+          <textarea class="textarea" id="textarea"  ></textarea>
+          <button type="button" class="btn textareabtn" id="textareabtn">Save</button>
         </td>
       </tr>
       <tr>
@@ -305,7 +308,7 @@ let levelfail = document.querySelector('.levelfail')
 
 
 // this function will display hours: minutes :ampm 
-setInterval(myTimer, 1000);
+// setInterval(myTimer, 1000);
   function myTimer(){
     const date = new Date();
           var hours = date.getHours();
@@ -317,6 +320,29 @@ setInterval(myTimer, 1000);
           stime = hours +":"+ minutes +":"+ ampm 
            return stime
   }
+
+
+  // let hours = 0;
+  //   let minutes = 0;
+  //   let seconds = 0;
+    
+  //   const timerElement = document.getElementById("timer");
+
+  //   function myTimer() {
+  //     seconds++;
+  //     if (seconds >= 60) {
+  //       seconds = 0;
+  //       minutes++;
+  //       if (minutes >= 60) {
+  //         minutes = 0;
+  //         hours++;
+  //       }
+  //     }
+  //    return  hours + ":" + minutes + ":" + seconds;
+  //   }
+
+    setInterval(myTimer, 1000);
+
  var myTimerex = myTimer();
 
  // Battery info Api
