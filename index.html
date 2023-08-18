@@ -221,7 +221,7 @@
           <div  id="instrct" >
             <ul>
              <h1 style="font-weight: 700;">instructions:</h1>
-             <li>Disconnectthe charger from the device   </li>
+             <li>Disconnect the charger from the device   </li>
              <li>open Cpu Stress app on your desktop and run strees at 100%</li>
              <p style="color: #17a2b8">The test will be for 30 minutes</p>
             </ul>
@@ -237,7 +237,7 @@
       <tr>
         <th scope="row">Start Time </th>
         <td><p id="timestart1"></p></td>
-        <p>If the timer goes off before 30 minutes or the device goes to sleep, check by time and battery level it should be in around 30 minutes battery  not discharged more than 25 present from start level</p>
+        <p>If the timer goes off before 30 minutes or the device goes to sleep, check by time and battery level it should be in around 30 minutes battery  not discharged more than 35% percent from start level</p>
         <td> 
           <p>Notes</p>
           <textarea class="textarea" id="textarea"  ></textarea>
@@ -427,7 +427,7 @@ if (matchEN) {
 
   const diffrent = batteryst - batteryen;
 
-  if (diffrent >= 0 && diffrent < 25 && minutes === 30) {
+  if (diffrent >= 0 && diffrent < 35 && minutes === 30) {
     document.getElementById("time").classList.add('pass');
         // Create a new h1 element
         var newHeading = document.createElement("h1");
