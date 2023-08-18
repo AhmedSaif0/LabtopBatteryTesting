@@ -49,14 +49,14 @@
       color: rgb(255, 255, 255);
     } 
 
-#demo3{
-color: #42a3b9;
-text-align: -webkit-center;
-}
-#demo3 > p {
-  margin-top: 3px;
-margin-bottom: 0rem;
-}
+    #demo3{
+    color: #42a3b9;
+    text-align: -webkit-center;
+    }
+    #demo3 > p {
+    margin-top: 3px;
+    margin-bottom: 0rem;
+    }
     .otest{
       text-align: center;
     }
@@ -73,12 +73,11 @@ margin-bottom: 0rem;
       position: relative;
         left: -2px;
     }
-    .textareabtn {
-      position: absolute;
-        height: 57px;
-    }
+  
     #timestart1{
       width: 120px;
+      font-size: 20px;
+      font-weight: 600;
     }
 
     .maindiv{
@@ -222,8 +221,8 @@ margin-bottom: 0rem;
           <div  id="instrct" >
             <ul>
              <h1 style="font-weight: 700;">instructions:</h1>
-             <li>Disconnect the device from the charger </li>
-             <li>open cpu tress app on your desktop and run strees at 100%</li>
+             <li>Disconnectthe charger from the device   </li>
+             <li>open Cpu Stress app on your desktop and run strees at 100%</li>
              <p style="color: #17a2b8">The test will be for 30 minutes</p>
             </ul>
            </div>
@@ -242,7 +241,7 @@ margin-bottom: 0rem;
         <td> 
           <p>Notes</p>
           <textarea class="textarea" id="textarea"  ></textarea>
-          <button type="button" class="btn textareabtn" id="textareabtn">Save</button>
+          <button type="button" class="btn textareabtn" id="textareabtn" style="display:none;">Save</button>
         </td>
       </tr>
       <tr>
@@ -308,7 +307,7 @@ let levelfail = document.querySelector('.levelfail')
 
 
 // this function will display hours: minutes :ampm 
-// setInterval(myTimer, 1000);
+
   function myTimer(){
     const date = new Date();
           var hours = date.getHours();
@@ -321,7 +320,7 @@ let levelfail = document.querySelector('.levelfail')
            return stime
   }
 
-
+  myTimer()
   // let hours = 0;
   //   let minutes = 0;
   //   let seconds = 0;
@@ -341,13 +340,12 @@ let levelfail = document.querySelector('.levelfail')
   //    return  hours + ":" + minutes + ":" + seconds;
   //   }
 
-    setInterval(myTimer, 1000);
-
+    // setInterval(myTimer, 1000);
+ 
  var myTimerex = myTimer();
 
  // Battery info Api
 function starTime() {
-  document.getElementById('instrct').style.display = "none";
 
     navigator.getBattery().then(function (battery) {
         function updateAllBatteryInfo() {
@@ -375,52 +373,68 @@ function timer() {
          minutes = Math.floor(count / 60);
         var hours = Math.floor(minutes / 60);
         minutes %= 60;
-        // minutes = minutes < 10 ? '0'+minutes : minutes
-
-        // if(minutes === 1) {
-        // document.getElementById("time").classList.add('pass');
-        // // Create a new h1 element
-        // var newHeading = document.createElement("h1");
-        // // icon.removeChild(div1)
-        // icon.appendChild(newHeading);
-        // newHeading.classList.add('passicon')
-        
-        // }
-        // hours = hours < 10 ? '0'+hours : hours;
         document.getElementById("time").innerHTML = hours + ":" + minutes + ":" + seconds + " "; // watch for spelling
         let timervar =  " Timer "+ hours +" : "+ minutes 
         localStorage.setItem('timer' , timervar)
-}
 
+        if( minutes === 30) {
+ 
+      timeOut();
+   }
+   
+}
 var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
 //stoping timer at 10 mints and show result
-const stimoutminutes = 30; // 30 minutes
-const millisecondsInOneMinute = 60000;
-const timeoutDuration = stimoutminutes * millisecondsInOneMinute;
-setTimeout(() => {
+const timeOut = () =>{
   clearInterval(counter);
-  clearInterval(starTime)
+      clearInterval(starTime)
+  document.getElementById('instrct').style.display = "none";
+
   const items = document.querySelectorAll(".levelpara");
   const firstItemValue = items[items.length - 1].textContent;
   const lastItemValue = items[0].textContent; 
-  const battertStart = firstItemValue.substring(14, 16); // Extract "33%"
-  const batteryEnd = lastItemValue.substring(14, 16); // Extract "33%"
-  const batteryst = parseInt(battertStart)
-  const batteryen = parseInt(batteryEnd)
-  console.log(batteryst , batteryen)
+  // const battertStart = firstItemValue.substring(14, 16); // Extract "33%"
+  // const batteryEnd = lastItemValue.substring(14, 16); // Extract "33%"
+let  batteryst = 0
+let  batteryen = 0
+const regex = /(\d+)%/;
+const match = firstItemValue.match(regex);
 
-const diffrent = batteryst - batteryen;
+if (match) {
+  const numericValue = parseInt(match[1]); // Extract the captured group and convert to a number
+  // console.log(numericValue); // Output: 100
+  batteryst = numericValue
+} else {
+  console.log("start value");
+}
 
-  if(diffrent <= 25 && minutes === 30 ){
-    console.log(batteryst , batteryen)
+const regexEN = /(\d+)%/;
+const matchEN = lastItemValue.match(regexEN);
+
+if (matchEN) {
+  const numericValueEN = parseInt(matchEN[1]); // Extract the captured group and convert to a number
+  // console.log(numericValueEN); // Output: 100
+  batteryen = numericValueEN
+} else {
+  console.log("end value ");
+}
+
+
+  // const batteryst = parseInt(battertStart)
+  // console.log (batteryst)
+  // const batteryen = parseInt(batteryEnd)
+
+  const diffrent = batteryst - batteryen;
+
+  if (diffrent >= 0 && diffrent < 25 && minutes === 30) {
     document.getElementById("time").classList.add('pass');
         // Create a new h1 element
         var newHeading = document.createElement("h1");
         // icon.removeChild(div1)
         icon.appendChild(newHeading);
         newHeading.classList.add('passicon')
-  document.querySelector('.passicon').textContent = "Test Pass discharged"+ ' ' +`${diffrent}%`+ ' in '+ `${stimoutminutes}`+ ' minutes';
+  document.querySelector('.passicon').textContent = "Test Pass discharged"+ ' ' +`${diffrent}%`+ ' in '+ `${minutes}`+ ' minutes';
 
   }
   else{
@@ -431,7 +445,7 @@ const diffrent = batteryst - batteryen;
         icon.appendChild(newHeading);
         newHeading.classList.add('passicon')
  const passIconElement = document.querySelector('.passicon')
-        passIconElement.textContent  = "Test Failed  discharged" +' '+ `${diffrent}%`+ ' in '+ `${stimoutminutes}` + ' minutes';
+        passIconElement.textContent  = "Test Failed  discharged" +' '+ `${diffrent}%`+ ' in '+ `${minutes}` + ' minutes';
 
         passIconElement.classList.remove('passicon')
         passIconElement.classList.add('red')
@@ -440,78 +454,24 @@ const diffrent = batteryst - batteryen;
   }
           levelpass.innerHTML = "Start " + `${firstItemValue}`
           levelfail.innerHTML = "Finsh " + `${lastItemValue}`
-}, timeoutDuration); 
+}
+
+// setTimeout(() => {
+//       clearInterval(counter);
+//       clearInterval(starTime)
+//       timeOut();
+// }, timeoutDuration); 
 
 
 
-updateAllBatteryInfo();
-battery.addEventListener("chargingchange", () => {
-updateChargeInfo();
-});
+  updateAllBatteryInfo();
+  battery.addEventListener("chargingchange", () => {
+  updateChargeInfo();
+  });
 
+//yes or no charging
 function updateChargeInfo() {
         document.getElementById("demo").innerHTML = ` ${battery.charging ? " Yes" : " No" }`;
-
-   //BATTERY ANIMATION 
-function batteryAnimtion (){
-
-if(battery.charging){  
-function chargebattery() {
-  var a;
-  a = document.getElementById("div1");
-  a.innerHTML = "&#xf244;";
-  setTimeout(function () {
-      a.innerHTML = "&#xf243;";
-    }, 1000);
-  setTimeout(function () {
-      a.innerHTML = "&#xf242;";
-    }, 2000);
-  setTimeout(function () {
-      a.innerHTML = "&#xf241;";
-    }, 3000);
-  setTimeout(function () {
-      a.innerHTML = "&#xf240;";
-      a.classList.add("green")
-    }, 4000);
-    a.classList.remove("green")
-}
-
-chargebattery();
-setInterval(chargebattery, 5000);
-
-} 
-  else  
-{
-  function chargebattery() {
-  var a;
-  a = document.getElementById("div1");
-  a.innerHTML = "&#xf240;";
-  setTimeout(function () {
-      a.innerHTML = "&#xf241;";
-    }, 1000);
-  setTimeout(function () {
-      a.innerHTML = "&#xf242;";
-    }, 2000);
-  setTimeout(function () {
-      a.innerHTML = "&#xf243;";
-    }, 3000);
-  setTimeout(function () {
-      a.innerHTML = "&#xf244;";
-      a.classList.add("red")
-    }, 4000);
-    a.classList.remove("red")
-}
-
-chargebattery();
-setInterval(chargebattery, 5000);
-}
-}
-// let batteryAnimtionvar = setInterval(batteryAnimtion,1000)
-// setTimeout(() => {
-//   clearInterval(batteryAnimtionvar)
-//   console.log("animtion stopped!");
-// }, 90000); 
-
 }
 
 
@@ -596,9 +556,9 @@ restored()
 
 // discharging time
 
-        battery.addEventListener("dischargingtimechange", () => {
-          updateDischargingInfo();
-        });
+battery.addEventListener("dischargingtimechange", () => {
+  updateDischargingInfo();
+});
 
 function updateDischargingInfo() {
           var distime =  battery.dischargingTime ;
@@ -642,12 +602,8 @@ if(ind % 10 == 0){
   tag.classList.add("red");
           // para.innerText = "Battery level " + `${ batteryy}%` + "\n";
           // btry.prepend(para) 
-}else{
-  console.log(ind)
-
   }
-
-      })
+})
 
       // Restore Notes
       let val =  localStorage.getItem("user") ;
